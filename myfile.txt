@@ -1,1 +1,1 @@
-Content {content = "foo \128695", bytes = "foo \240\159\154\183", size = 8}
+{"size":8,"content":"foo ð·"}
