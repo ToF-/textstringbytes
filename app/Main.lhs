@@ -8,18 +8,33 @@ Allow for our data type to have a generic representation which will be used by A
 
 > module Main where
 
-> import GHC.Generics                     (Generic)
-> import System.Environment               (getArgs)
-> import System.Exit                      (die, exitSuccess)
-> import Control.Monad                    (unless)
-> import Data.Text as T
-> import Data.Text.Encoding as E
-> import Data.ByteString as BS
-> import Data.ByteString.Char8
-> import Data.Aeson as J
-> import GHC.Generics
+> import Control.Monad                        (unless)
+> import Data.Aeson as J                      (FromJSON, ToJSON, decode, encode)
+
+Size of a ByteString:
+
+> import Data.ByteString as BS                (length)
+
+Converting from ByteString (Strict) to String:
+
+> import Data.ByteString.Char8 as C           (unpack)
+
+Converting from String to Text and vice versa:
+
+> import Data.Text as T                       (Text, pack, unpack)
+
+Converting from Text to ByteString:
+
+> import Data.Text.Encoding as E              (encodeUtf8)
+
+Converting from ByteString.Lazy (which Aeson encode produces) to ByteString.Strict:
+
+> import qualified Data.ByteString.Lazy as BL (toStrict)
+
+> import GHC.Generics                         (Generic)
 > import Prelude as P
-> import qualified Data.ByteString.Lazy as BL
+> import System.Environment                   (getArgs)
+> import System.Exit                          (die, exitSuccess)
 
 > data Content = Content {
 >
@@ -54,7 +69,7 @@ and display what we have:
 
 >    P.putStrLn $ "received: " <> st
 >    P.putStrLn $ "show content:" <> (show ct)
->    P.putStrLn $ "encode json:" <> (Data.ByteString.Char8.unpack (BL.toStrict js))
+>    P.putStrLn $ "encode json:" <> (C.unpack (BL.toStrict js))
 >    case nj of
 >      Nothing -> die "couldn't decode!"
 >      Just c -> P.putStrLn $ "decoded content:" <> (show ct)
