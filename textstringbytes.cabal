@@ -39,7 +39,7 @@ library
   default-language: Haskell2010
 
 executable textstringbytes-exe
-  main-is: Main.hs
+  main-is: Main.lhs
   other-modules:
       Paths_textstringbytes
   hs-source-dirs:
